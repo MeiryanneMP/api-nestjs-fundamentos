@@ -28,7 +28,7 @@ export class UserService {
 
   }
 
-  async getAlUser(): Promise<UserEntity[]>{
+  async getAllUser(): Promise<UserEntity[]>{
     return this.userRepository.find();
   }
 }
