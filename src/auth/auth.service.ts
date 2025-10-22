@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadGatewayException, Injectable, NotFoundException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { LoginDto } from './dtos/login.dto';
 import { UserEntity } from 'src/user/entities/user.entity';
@@ -19,7 +19,8 @@ export class AuthService {
   async login(loginDto: LoginDto): Promise<ReturnLogin> {
     const user: UserEntity | undefined = await this.userService
       .findUserByEmail(loginDto.email)
-      .catch(() => undefined);
+      .catch(() => undefined
+    );
 
     if (!user || !user.password) {
       throw new NotFoundException('Email or password invalid');
@@ -29,6 +30,10 @@ export class AuthService {
 
     if (!isMatch) {
       throw new NotFoundException('Email or password invalid');
+    }
+
+    if (user) {
+      throw new BadGatewayException('email registered in system');
     }
 
     return {
