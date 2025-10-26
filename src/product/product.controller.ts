@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/user/enum/user-type.enum';
 import { ProductService } from './product.service';
 import { ReturnProductDto } from './dtos/return-product.dto';
 import { CreateProductDto } from './dtos/create-product.dto';
 import { ProductEntity } from './entities/product.entity';
+import { DeleteResult } from 'typeorm';
 
 @Roles(UserType.Admin, UserType.User)
 @Controller('product')
@@ -20,7 +21,7 @@ export class ProductController {
     );
   }
 
-  @Roles(UserType.User)
+  @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Post()
   async createProduct(
@@ -28,4 +29,13 @@ export class ProductController {
   ): Promise<ProductEntity> {
     return this.productService.createProduct(createProduct);
   }
+
+  @Roles(UserType.Admin)
+  @Delete('/:productId')
+  async deleteProduct(
+    @Param('productId') productId: number,
+  ): Promise<DeleteResult> {
+    return this.productService.deleteProduct(productId);
+  }
+  
 }
