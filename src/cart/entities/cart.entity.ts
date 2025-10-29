@@ -5,8 +5,8 @@ export class CartEntity {
   @PrimaryGeneratedColumn('rowid')
   id: number;
 
-  @Column({name: 'name', nullable: false})
-  name: string;
+  @Column({name: 'user_id', nullable: false})
+  userId:number;
 
   @CreateDateColumn({name: 'created_at'})
   createdAt: Date;
