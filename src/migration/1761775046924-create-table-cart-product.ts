@@ -25,8 +25,8 @@ export class CreateTableCartProduct1761775046924 implements MigrationInterface {
             CACHE 1;
 
             ALTER SEQUENCE public.cart_product_id_seq OWNED BY public.cart_product.id;
-            ALTER TABLE ONLY public.cart_product ALTER COLUMN id SET DEFAULT nextval('public.cart_product_id_seq'::regclass)
-        `)
+            ALTER TABLE ONLY public.cart_product ALTER COLUMN id SET DEFAULT nextval('public.cart_product_id_seq'::regclass);
+        `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
