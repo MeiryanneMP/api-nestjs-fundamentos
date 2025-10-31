@@ -1,6 +1,7 @@
 import { CartProductEntity } from 'src/cart-product/entities/cart-product.entity';
-import { Column, CreateDateColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity({ name: 'cart'})
 export class CartEntity {
 
   @PrimaryGeneratedColumn('rowid')

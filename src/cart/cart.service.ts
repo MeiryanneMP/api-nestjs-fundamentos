@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartEntity } from './entities/cart.entity';
 import { Repository } from 'typeorm';
+import { InsertCartDto } from './dtos/insert-cart.dto';
 
 @Injectable()
 export class CartService {
@@ -28,5 +29,16 @@ export class CartService {
       active: true,
       userId,
     });
+  }
+
+  async insertProductInCart(
+    insertCart: InsertCartDto,
+    userId: number,
+  ): Promise<CartEntity>{
+    const cart = await this.verifyActiveCart(userId).catch(async () =>{
+      return this.createCart(userId);
+    });
+
+    return cart;
   }
 }

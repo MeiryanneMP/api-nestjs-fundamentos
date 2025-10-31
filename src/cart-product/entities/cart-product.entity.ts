@@ -1,5 +1,4 @@
 import { CartEntity } from 'src/cart/entities/cart.entity';
-import { CategoryEntity } from 'src/category/entities/category.entity';
 import { ProductEntity } from 'src/product/entities/product.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -8,9 +7,6 @@ export class CartProductEntity {
 
   @PrimaryGeneratedColumn('rowid')
   id:number;
-
-  @Column({ name: 'cart_id', nullable: false })
-  cartId: string;
 
   @Column({ name: 'product_id', nullable: false })
   productId: number;
