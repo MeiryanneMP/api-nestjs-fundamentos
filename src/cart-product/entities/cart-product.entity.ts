@@ -2,11 +2,14 @@ import { CartEntity } from 'src/cart/entities/cart.entity';
 import { ProductEntity } from 'src/product/entities/product.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'product'})
+@Entity({ name: 'cart_product'})
 export class CartProductEntity {
 
   @PrimaryGeneratedColumn('rowid')
   id:number;
+
+  @Column({ name: 'cart_id', nullable: false })
+  cartId: number;
 
   @Column({ name: 'product_id', nullable: false })
   productId: number;
