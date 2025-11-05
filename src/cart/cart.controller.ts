@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/user/enum/user-type.enum';
 import { CartService } from './cart.service';
@@ -20,5 +20,10 @@ export class CartController {
     return new ReturnCartDto(
       await this.cartService.insertProductInCart(insertCart, userId),
     );
+  }
+
+  @Get()
+  async findCartByUserId(@UserId() userId: number): Promise<ReturnCartDto> {
+    return new ReturnCartDto(await this.cartService.findCartByUserId(userId));
   }
 }
