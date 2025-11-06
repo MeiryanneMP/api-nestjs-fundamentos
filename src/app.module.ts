@@ -15,6 +15,7 @@ import { ProductModule } from './product/product.module';
 import { CartModule } from './cart/cart.module';
 import { CartProductModule } from './cart-product/cart-product.module';
 import { PaymentStatusModule } from './payment-status/payment-status.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { PaymentStatusModule } from './payment-status/payment-status.module';
     CartModule,
     CartProductModule,
     PaymentStatusModule,
+    PaymentModule,
   ],
   controllers: [],
   providers: [
