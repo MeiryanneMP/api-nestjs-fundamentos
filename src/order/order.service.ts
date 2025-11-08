@@ -7,6 +7,7 @@ import { CreateOrderDto } from './dtos/create-order.dto';
 import { PaymentEntity } from 'src/payment/entities/payment.entity';
 import { CartService } from 'src/cart/cart.service';
 import { OrderProductService } from 'src/order-product/order-product.service';
+import { ProductService } from 'src/product/product.service';
 
 @Injectable()
 export class OrderService {
@@ -16,6 +17,7 @@ export class OrderService {
     private readonly paymentService: PaymentService,
     private readonly cartService: CartService,
     private readonly orderProductService: OrderProductService,
+    private readonly productService: ProductService,
   ) {}
 
   async createOrder(
@@ -36,6 +38,21 @@ export class OrderService {
     });
 
     const cart = await this.cartService.findCartByUserId(userId, true);
+    const products = await this.productService.findAll(
+      cart.cartProduct?.map((cartProduct) => cartProduct.productId),
+    );
+
+    await Promise.all(
+      (cart.cartProduct?? []).map((cartProduct) =>
+        this.orderProductService.createOrderProduct(
+          cartProduct.productId,
+          order.id,
+          products.find((product) => product.id === cartProduct.productId)
+          ?.price || 0,
+          cartProduct.amount,
+        ),
+      ),
+    );
 
     cart.cartProduct?.forEach((cartProduct) => {
       this.orderProductService.createOrderProduct(
@@ -45,8 +62,8 @@ export class OrderService {
         cartProduct.amount,
       );
     });
-    
-    return null
+
+    return order
 
   }
 }
