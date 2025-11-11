@@ -73,14 +73,7 @@ export class OrderService {
 
     await this.createOrderProductUsingCart(cart, order.id, products);
 
-    cart.cartProduct?.forEach((cartProduct) => {
-      this.orderProductService.createOrderProduct(
-        cartProduct.productId,
-        order.id,
-        0,
-        cartProduct.amount,
-      );
-    });
+    await this.cartService.clearCart(userId);
 
     return order
 
