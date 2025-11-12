@@ -6,6 +6,8 @@ import { CreateOrderDto } from 'src/order/dtos/create-order.dto';
 import { PaymentCreditCardEntity } from './entities/payment-credit-card.entity';
 import { PaymentType } from 'src/payment-status/enums/payment-type.enum';
 import { PaymentPixEntity } from './entities/payment-pix.entity';
+import { ProductEntity } from 'src/product/entities/product.entity';
+import { CartEntity } from 'src/cart/entities/cart.entity';
 
 @Injectable()
 export class PaymentService {
@@ -15,7 +17,9 @@ export class PaymentService {
   ) {}
 
   async createPayment(
-    createOrderDto: CreateOrderDto
+    createOrderDto: CreateOrderDto,
+    products: ProductEntity[],
+    cart: CartEntity,
   ): Promise<PaymentEntity> {
     if (createOrderDto.amountPayments) {
       const paymentCreditCard = new PaymentCreditCardEntity(

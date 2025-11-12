@@ -60,22 +60,25 @@ export class OrderService {
     userId: number,
   ) {
 
-    const payment: PaymentEntity = await this.paymentService.createPayment(
-      createOrderDto,
-    );
-
-    const order = await this.saveOrder(createOrderDto, userId, payment);
-
     const cart = await this.cartService.findCartByUserId(userId, true);
+
     const products = await this.productService.findAll(
       cart.cartProduct?.map((cartProduct) => cartProduct.productId),
     );
+
+    const payment: PaymentEntity = await this.paymentService.createPayment(
+      createOrderDto,
+      products,
+      cart,
+    );
+
+    const order = await this.saveOrder(createOrderDto, userId, payment);
 
     await this.createOrderProductUsingCart(cart, order.id, products);
 
     await this.cartService.clearCart(userId);
 
-    return order
+    return order;
 
   }
 }
