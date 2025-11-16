@@ -12,7 +12,7 @@ export class ReturnAddressDto {
     this.id = address.id;
     this.complement = address.complement;
     this.cep = address.cep;
-    this.numberAddress = address.number;
+    this.numberAddress = address.numberAddress;
     this.city = address.city ? new ReturnCityDto(address.city): undefined;
   }
 }
