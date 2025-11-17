@@ -3,9 +3,15 @@ import { CorreiosService } from './correios.service';
 import { CorreiosController } from './correios.controller';
 import { HttpModule } from '@nestjs/axios';
 import { CityModule } from 'src/city/city.module';
+import { SoapModule } from 'nestjs-soap';
 
 @Module({
   imports: [
+    SoapModule.register({
+      clientName: 'SOAP_CORREIOS',
+      uri: 'http://ws.correios.com.br/calculator/CalcPrecoPrazo.asmx?wsdl',
+    }),
+
     HttpModule.register({
       timeout: 5000,
       maxRedirects: 5,
