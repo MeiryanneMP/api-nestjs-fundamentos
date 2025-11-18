@@ -21,6 +21,21 @@ export class ProductEntity {
   @Column({ name: 'image', nullable: false })
   image: string;
 
+  @Column({ name: 'weight', nullable: false })
+  weight: number;
+
+  @Column({ name: 'length', nullable: false })
+  length: number;
+
+  @Column({ name: 'height', nullable: false })
+  height: number;
+
+  @Column({ name: 'width', nullable: false })
+  width: number;
+
+  @Column({ name: 'diameter', nullable: false })
+  diameter: number;
+
   @Column({ name: 'created_at' })
   createdAt: Date;
 
