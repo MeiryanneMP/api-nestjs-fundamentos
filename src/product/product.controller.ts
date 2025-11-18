@@ -15,7 +15,7 @@ export class ProductController {
     private readonly productService: ProductService
   ){}
 
-  @Roles(UserType.Admin, UserType.User)
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get()
   async findAll(): Promise<ReturnProductDto[]> {
     return ( await this.productService.findAll([], true)).map(
@@ -23,7 +23,7 @@ export class ProductController {
     );
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserType.Admin, UserType.Root)
   @UsePipes(ValidationPipe)
   @Post()
   async createProduct(
@@ -32,7 +32,7 @@ export class ProductController {
     return this.productService.createProduct(createProduct);
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserType.Admin, UserType.Root)
   @Delete('/:productId')
   async deleteProduct(
     @Param('productId') productId: number,
@@ -40,7 +40,7 @@ export class ProductController {
     return this.productService.deleteProduct(productId);
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserType.Admin, UserType.Root)
   @Put('/:productId')
   async updateProduct(
     @Body() updateProduct: UpdateProductDto,
