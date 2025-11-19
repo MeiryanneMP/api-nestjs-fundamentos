@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryEntity } from './entities/category.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateCategoryDto } from './dtos/create-category.dto';
 import { ProductService } from 'src/product/product.service';
 import { ReturnCategoryDto } from './dtos/return-category.dto';
@@ -57,11 +57,20 @@ export class CategoryService {
     return category;
   }
 
-  async findCategoryById(categoryId: number): Promise<CategoryEntity> {
+  async findCategoryById(categoryId: number, isRelations?: boolean): Promise<CategoryEntity> {
+    const relations = isRelations
+      ? {
+         products: true,
+        }
+      : undefined;
+      
+      
     const category = await this.categoryRepository.findOne({
       where: {
         id: categoryId,
       },
+
+      relations,
     });
 
     if(!category) {
@@ -84,5 +93,14 @@ export class CategoryService {
       );
     }
     return this.categoryRepository.save(createCategory);
+  }
+
+  async deleteCategory(categoryId: number): Promise<DeleteResult> {
+    const category = await this.findCategoryById(categoryId, true);
+
+    if (category.products?.length > 0) {
+      throw new BadRequestException('Category with relations.');
+    }
+    return this.categoryRepository.delete({ id: categoryId });
   }
 }
