@@ -57,11 +57,18 @@ export class ProductService {
     return products;
   }
 
-  async findProducById(productId: number): Promise<ProductEntity> {
+  async findProducById(productId: number, isRelations?: boolean): Promise<ProductEntity> {
+    const relations = isRelations
+      ? {
+          category: true,
+        }
+      : undefined;
+      
     const product = await this.productRepository.findOne({
       where: {
         id: productId,
       },
+      relations,
     });
 
     if (!product) {
