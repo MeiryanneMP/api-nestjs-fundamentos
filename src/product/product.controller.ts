@@ -48,7 +48,7 @@ export class ProductController {
     return this.productService.createProduct(createProduct);
   }
 
-  @Roles(UserType.Admin, UserType.Root)
+  @Roles(UserType.Root)
   @Delete('/:productId')
   async deleteProduct(
     @Param('productId') productId: number,
